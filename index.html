@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Absensi Karyawan</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #eef3f8;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 30px;
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.10);
+    }
+
+    .logo {
+      width: 65px;
+      height: 65px;
+
+      margin: auto;
+
+      border-radius: 18px;
+
+      background: #174ea6;
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+
+      font-size: 24px;
+
+      margin: 18px 0 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+
+      color: #777;
+
+      font-size: 14px;
+
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+
+      font-weight: bold;
+
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+
+      padding: 14px;
+
+      border: 1px solid #d5dbe3;
+
+      border-radius: 10px;
+
+      font-size: 17px;
+
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #174ea6;
+    }
+
+    .buttons {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+      margin-top: 15px;
+    }
+
+    button {
+      border: none;
+
+      padding: 14px 8px;
+
+      border-radius: 10px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .masuk {
+      background: #174ea6;
+      color: white;
+    }
+
+    .pulang {
+      background: #e9eef6;
+      color: #174ea6;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .karyawan {
+      display: none;
+
+      margin-top: 20px;
+
+      padding: 15px;
+
+      background: #f5f7fa;
+
+      border-radius: 12px;
+    }
+
+    .karyawan.show {
+      display: block;
+    }
+
+    .nama {
+      font-size: 18px;
+
+      font-weight: bold;
+
+      margin-bottom: 6px;
+    }
+
+    .detail {
+      color: #666;
+
+      font-size: 13px;
+    }
+
+    .pesan {
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 13px;
+
+      border-radius: 10px;
+
+      font-size: 14px;
+    }
+
+    .pesan.show {
+      display: block;
+    }
+
+    .success {
+      background: #e9f8ef;
+      color: #147a3e;
+    }
+
+    .error {
+      background: #fdecec;
+      color: #b42318;
+    }
+
+    .info {
+      background: #edf4ff;
+      color: #175cd3;
+    }
+
+    .footer {
+      text-align: center;
+
+      margin-top: 25px;
+
+      font-size: 12px;
+
+      color: #999;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">
+      A
+    </div>
+
+    <h1>ABSENSI KARYAWAN</h1>
+
+    <div class="subtitle">
+      Sistem Absensi Karyawan
+    </div>
+
+    <label for="nik">
+      NIK Karyawan
+    </label>
+
+    <input
+      type="text"
+      id="nik"
+      placeholder="Masukkan NIK"
+      autocomplete="off"
+    >
+
+    <div class="buttons">
+
+      <button
+        class="masuk"
+        onclick="absen('MASUK')"
+      >
+        ABSEN MASUK
+      </button>
+
+      <button
+        class="pulang"
+        onclick="absen('PULANG')"
+      >
+        ABSEN PULANG
+      </button>
+
+    </div>
+
+    <div
+      class="karyawan"
+      id="karyawan"
+    >
+
+      <div
+        class="nama"
+        id="nama"
+      ></div>
+
+      <div
+        class="detail"
+        id="detail"
+      ></div>
+
+    </div>
+
+    <div
+      class="pesan"
+      id="pesan"
+    ></div>
+
+    <div class="footer">
+      © 2026 Sistem Absensi Karyawan
+    </div>
+
+  </div>
+
+
+<script>
+
+  /*
+   * NANTI KITA ISI DENGAN
+   * URL WEB APP APPS SCRIPT
+   *
+   * Jangan diisi sekarang.
+   */
+
+  const API_URL = "";
+
+
+  function tampilPesan(teks, tipe) {
+
+    const pesan =
+      document.getElementById("pesan");
+
+    pesan.textContent = teks;
+
+    pesan.className =
+      "pesan show " + tipe;
+  }
+
+
+  function absen(status) {
+
+    const nik =
+      document.getElementById("nik")
+      .value
+      .trim();
+
+
+    if (!nik) {
+
+      tampilPesan(
+        "Masukkan NIK terlebih dahulu.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    tampilPesan(
+      "Mempersiapkan absensi...",
+      "info"
+    );
+
+
+    /*
+     * NANTI DI SINI KITA HUBUNGKAN
+     * KE GOOGLE APPS SCRIPT.
+     */
+
+    console.log(
+      "NIK:",
+      nik,
+      "STATUS:",
+      status
+    );
+
+  }
+
+</script>
+
+</body>
+</html>
